@@ -12,9 +12,32 @@ from collections.abc import Generator
 from typing import IO, Any
 
 from sqlparse import cli, engine, filters, formatter, sql, tokens
+from sqlparse.pagination import (
+    PaginationError,
+    PaginationPlan,
+    PaginationValue,
+    UnsupportedDialectError,
+    UnsupportedStatementError,
+    parse_pagination,
+    rewrite_pagination,
+)
 
 __version__ = "0.6.1.dev0"
-__all__ = ["cli", "engine", "filters", "formatter", "sql", "tokens"]
+__all__ = [
+    "cli",
+    "engine",
+    "filters",
+    "formatter",
+    "sql",
+    "tokens",
+    "parse_pagination",
+    "rewrite_pagination",
+    "PaginationError",
+    "UnsupportedStatementError",
+    "UnsupportedDialectError",
+    "PaginationValue",
+    "PaginationPlan",
+]
 
 
 def parse(
