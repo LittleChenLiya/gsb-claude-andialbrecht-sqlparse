@@ -11,10 +11,10 @@
 from collections.abc import Generator
 from typing import IO, Any
 
-from sqlparse import cli, engine, filters, formatter, sql, tokens
+from sqlparse import cli, engine, filters, formatter, params, sql, tokens
 
 __version__ = "0.6.1.dev0"
-__all__ = ["cli", "engine", "filters", "formatter", "sql", "tokens"]
+__all__ = ["cli", "engine", "filters", "formatter", "params", "sql", "tokens"]
 
 
 def parse(
@@ -73,3 +73,20 @@ def split(
     """
     stack = engine.FilterStack(strip_semicolon=strip_semicolon)
     return [str(stmt).strip() for stmt in stack.run(sql, encoding)]
+
+
+def scan_parameters(
+    sql: str, dialect: str | None = None
+) -> "params.ParameterInventory":
+    """Scan *sql* for parameter placeholders and return an inventory.
+
+    This is a convenience wrapper around
+    :class:`~sqlparse.params.ParameterInventory`.  SQL is parsed but
+    never executed.
+
+    :param sql: A string containing one or more SQL statements.
+    :param dialect: One of ``"postgresql"``, ``"mysql"``, ``"sqlite"``,
+        ``"oracle"`` or ``None`` (unknown dialect).
+    :returns: A :class:`~sqlparse.params.ParameterInventory` instance.
+    """
+    return params.scan(sql, dialect=dialect)
